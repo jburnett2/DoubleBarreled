@@ -4,8 +4,6 @@ using System.Collections;
 public class shootAnimate : MonoBehaviour {
 
     public int playerNumber;
-
-    private bool shooting;
     private Animator animationController;
 
 	// Use this for initialization
@@ -15,14 +13,6 @@ public class shootAnimate : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetAxisRaw("Shoot" + playerNumber) == 0)
-        {
-            shooting = false;
-        }
-        else
-        {
-            shooting = true;
-        }
-        animationController.SetBool("shoot", shooting);
+        animationController.SetFloat("shoot", Input.GetAxisRaw("Shoot" + playerNumber));
 	}
 }

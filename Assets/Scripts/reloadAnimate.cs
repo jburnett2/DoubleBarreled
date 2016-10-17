@@ -15,5 +15,9 @@ public class reloadAnimate : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         animationController.SetBool("reload", Input.GetButtonDown("Reload" + playerNumber));
+        if (animationController.GetCurrentAnimatorStateInfo(0).IsName("reload"))
+        {
+            Debug.Log("i think this is working");
+        }
 	}
 }

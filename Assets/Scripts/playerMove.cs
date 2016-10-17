@@ -73,22 +73,6 @@ public class playerMove : MonoBehaviour {
             {
                 theRigidBody.velocity = new Vector2(0f, theRigidBody.velocity.y);
                 //sr.sprite = uidle;
-                //lsr.sprite = lidle; // if you're on the ground and not moving then have regular legs
-                if (aimDir == playerAim.Facing.None) // how to handle the sprite if they are standing still and not aiming
-                {
-                    if (inputY == 0)
-                    {
-                        sr.sprite = uidle; // no y input, dont look anywhere
-                    }
-                    else if (inputY > 0)
-                    {
-                        sr.sprite = ulookup; // look up if positive y input on left stick
-                    }
-                    else
-                    {
-                        sr.sprite = ulookdown; // look down if negative y input on left stick
-                    }
-                }
             }
             else if (theRigidBody.velocity.x > 10 || theRigidBody.velocity.x < -10) // limit speed when going too fast aka always
             {
@@ -98,6 +82,22 @@ public class playerMove : MonoBehaviour {
             {
                 theRigidBody.AddForce(new Vector2(inputX * walkSpeed, 0f));
             }
+            if (aimDir == playerAim.Facing.None) // how to handle the sprite if they are standing still and not aiming
+            {
+                if (inputY == 0)
+                {
+                    sr.sprite = uidle; // no y input, dont look anywhere
+                }
+                else if (inputY > 0)
+                {
+                    sr.sprite = ulookup; // look up if positive y input on left stick
+                }
+                else
+                {
+                    sr.sprite = ulookdown; // look down if negative y input on left stick
+                }
+            }
+            lsr.sprite = lidle; // if you're on the ground and not moving then have regular legs
             //legsAnimControl.SetFloat("speed", Mathf.Abs(theRigidBody.velocity.x)); // start walkcycle animation for legs
             //sr.sprite = emptySpr;
             //upprAnimControl.SetFloat("speed", Mathf.Abs(theRigidBody.velocity.x)); // start walkcycle animation for upper

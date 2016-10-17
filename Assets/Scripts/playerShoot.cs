@@ -5,6 +5,7 @@ public class playerShoot : MonoBehaviour {
 
     public int playerNumber;
     public float shotForce;
+
     private playerAim pAim;
     private Rigidbody2D theRigidBody;
     private playerAim.Facing aimDir;
@@ -14,13 +15,16 @@ public class playerShoot : MonoBehaviour {
     public Sprite shotSprite;
     public Sprite emptySprite;
     public GameObject ShotRenderer;
+
     private SpriteRenderer sr;
+    private Animator animationController;
 
     // Use this for initialization
     void Start () {
         theRigidBody = GetComponent<Rigidbody2D>();
         pAim = GameObject.FindObjectOfType(typeof(playerAim)) as playerAim;
         sr = ShotRenderer.GetComponent<SpriteRenderer>();
+        animationController = ShotRenderer.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -42,49 +46,53 @@ public class playerShoot : MonoBehaviour {
                     theRigidBody.velocity = new Vector2(theRigidBody.velocity.x, 0f);
                     theRigidBody.AddForce(new Vector2(0f, shotForce));
 
-                    ShotRenderer.transform.position = new Vector2(ShotRenderer.transform.position.x, ShotRenderer.transform.position.y - 0.9f);
+                    //ShotRenderer.transform.position = new Vector2(ShotRenderer.transform.position.x, ShotRenderer.transform.position.y - 0.9f);
                 }
                 else if (aimDir == playerAim.Facing.Up && ammo >= 0) // shooting UP
                 {
                     theRigidBody.velocity = new Vector2(theRigidBody.velocity.x, 0f);
                     theRigidBody.AddForce(new Vector2(0f, -shotForce));
-                    ShotRenderer.transform.position = new Vector2(ShotRenderer.transform.position.x, ShotRenderer.transform.position.y + 1.1f);
+                    //ShotRenderer.transform.position = new Vector2(ShotRenderer.transform.position.x, ShotRenderer.transform.position.y + 1.1f);
                 }
                 else if (aimDir == playerAim.Facing.Right && ammo >= 0) // shooting RIGHT
                 {
                     theRigidBody.velocity = new Vector2(0f, theRigidBody.velocity.y);
                     theRigidBody.AddForce(new Vector2(-shotForce * 1.5f, 0f));
-                    ShotRenderer.transform.position = new Vector2(ShotRenderer.transform.position.x + 1.1f, ShotRenderer.transform.position.y + 0.2f);
+                    sr.flipX = false;
+                    animationController.SetFloat("shoot", Input.GetAxisRaw("Shoot" + playerNumber));
+                    ShotRenderer.transform.position = new Vector2(ShotRenderer.transform.position.x + 2f, ShotRenderer.transform.position.y + 0.2f);
                 }
                 else if (aimDir == playerAim.Facing.Left && ammo >= 0) // shooting LEFT
                 {
                     theRigidBody.velocity = new Vector2(0f, theRigidBody.velocity.y);
                     theRigidBody.AddForce(new Vector2(shotForce * 1.5f, 0f));
-                    ShotRenderer.transform.position = new Vector2(ShotRenderer.transform.position.x - 1.1f, ShotRenderer.transform.position.y + 0.2f);
+                    ShotRenderer.transform.position = new Vector2(ShotRenderer.transform.position.x - 2f, ShotRenderer.transform.position.y + 0.2f);
+                    sr.flipX = true;
+                    animationController.SetFloat("shoot", Input.GetAxisRaw("Shoot" + playerNumber));
                 }
                 else if (aimDir == playerAim.Facing.DownLeft && ammo >= 0) // shooting DOWN LEFT
                 {
                     theRigidBody.velocity = new Vector2(0f, 0f);
                     theRigidBody.AddForce(new Vector2(shotForce / 1.2f, shotForce / 1.2f));
-                    ShotRenderer.transform.position = new Vector2(ShotRenderer.transform.position.x - 0.7f, ShotRenderer.transform.position.y - 0.7f);
+                    //ShotRenderer.transform.position = new Vector2(ShotRenderer.transform.position.x - 0.7f, ShotRenderer.transform.position.y - 0.7f);
                 }
                 else if (aimDir == playerAim.Facing.DownRight && ammo >= 0) // shooting DOWN RIGHT
                 {
                     theRigidBody.velocity = new Vector2(0f, 0f);
                     theRigidBody.AddForce(new Vector2(-shotForce / 1.2f, shotForce / 1.2f));
-                    ShotRenderer.transform.position = new Vector2(ShotRenderer.transform.position.x + 0.7f, ShotRenderer.transform.position.y - 0.7f);
+                    //ShotRenderer.transform.position = new Vector2(ShotRenderer.transform.position.x + 0.7f, ShotRenderer.transform.position.y - 0.7f);
                 }
                 else if (aimDir == playerAim.Facing.UpLeft && ammo >= 0) // shooting UP LEFT
                 {
                     theRigidBody.velocity = new Vector2(0f, 0f);
                     theRigidBody.AddForce(new Vector2(shotForce / 1.2f, -shotForce / 1.2f));
-                    ShotRenderer.transform.position = new Vector2(ShotRenderer.transform.position.x - 0.75f, ShotRenderer.transform.position.y + 1.05f);
+                    //ShotRenderer.transform.position = new Vector2(ShotRenderer.transform.position.x - 0.75f, ShotRenderer.transform.position.y + 1.05f);
                 }
                 else if (aimDir == playerAim.Facing.UpRight && ammo >= 0) // shooting UP RIGHT
                 {
                     theRigidBody.velocity = new Vector2(0f, 0f);
                     theRigidBody.AddForce(new Vector2(-shotForce / 1.2f, -shotForce / 1.2f));
-                    ShotRenderer.transform.position = new Vector2(ShotRenderer.transform.position.x + 0.75f, ShotRenderer.transform.position.y + 1.05f);
+                    //ShotRenderer.transform.position = new Vector2(ShotRenderer.transform.position.x + 0.75f, ShotRenderer.transform.position.y + 1.05f);
                 }
                 if (ammo < 0 && aimDir != playerAim.Facing.None)
                 {
@@ -100,10 +108,18 @@ public class playerShoot : MonoBehaviour {
         {
             ammo = 2;
         }
+        if (Input.GetAxisRaw("Shoot" + playerNumber) == 0 && !isAxisInUse)
+        {
+        }
+        /*if (animationController.GetCurrentAnimatorStateInfo(0).IsName("idle"))
+        {
+            isAxisInUse = false;
+        }*/
         if (Input.GetAxisRaw("Shoot" + playerNumber) == 0)
         {
             isAxisInUse = false;
             sr.sprite = emptySprite;
+            animationController.SetFloat("shoot", 0);
             ShotRenderer.transform.position = new Vector2(theRigidBody.position.x, theRigidBody.position.y);
         }
     }
@@ -111,7 +127,7 @@ public class playerShoot : MonoBehaviour {
     {
         if (ammo == 0)
         {
-            ShotRenderer.transform.position = new Vector2(ShotRenderer.transform.position.x, ShotRenderer.transform.position.y);
+            //ShotRenderer.transform.position = new Vector2(ShotRenderer.transform.position.x, ShotRenderer.transform.position.y);
         }
     }
 }
