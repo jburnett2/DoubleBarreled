@@ -71,7 +71,6 @@ public class playerAim : MonoBehaviour {
         if (direction == Vector2.zero) { return Facing.None; }
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        //Debug.Log("Angle: " + angle);
         if (angle < 0.0f) { angle = 360.0f + angle; }
 
         angle += 22.5f;

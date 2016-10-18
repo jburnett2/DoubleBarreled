@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class pauseMenu : MonoBehaviour {
 
@@ -32,13 +33,11 @@ public class pauseMenu : MonoBehaviour {
 
     public void Resume()
     {
-        Debug.Log("Resume");
         isPaused = false;
     }
 
     public void Quit()
     {
-        Debug.Log("Quit");
-        Application.Quit();
+        SceneManager.LoadScene("Scenes/mainMenu");
     }
 }

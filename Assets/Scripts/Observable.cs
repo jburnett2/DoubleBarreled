@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Observable : MonoBehaviour {
+abstract public class Observable : MonoBehaviour {
+
+
 
     public void addObserver(Observer obs)
     {
@@ -13,8 +15,6 @@ public class Observable : MonoBehaviour {
 
     }
 
-    public void notify(Observable self, string description)
-    {
+    abstract public void notify(string description);
 
-    }
 }

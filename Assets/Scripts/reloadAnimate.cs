@@ -17,7 +17,6 @@ public class reloadAnimate : MonoBehaviour {
         animationController.SetBool("reload", Input.GetButtonDown("Reload" + playerNumber));
         if (animationController.GetCurrentAnimatorStateInfo(0).IsName("reload"))
         {
-            Debug.Log("i think this is working");
         }
 	}
 }
